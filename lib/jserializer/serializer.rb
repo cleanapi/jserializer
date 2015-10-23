@@ -8,6 +8,11 @@ class JSerializer::Serializer < JSerializer::Base
     @json.merge!(attrs)
   end
 
+  def camelized_attributes(*names, **attrs)
+    names.each { |name| @json[name.to_s.camelize(:lower)] = @object.send(name) }
+    @json.merge!(attrs)
+  end
+
   def embeds_many(*args)
     assign_association(*args) do |associated|
       JSerializer::CollectionSerializer.new(associated, **@options).as_json

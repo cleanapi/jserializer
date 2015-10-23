@@ -1,5 +1,5 @@
 factory(Employee) do
-  blueprint :leader, name: 'Leader'
+  blueprint :leader, name: 'Leader', last_name: 'Snow'
   blueprint :employee, name: 'Employee', leader: leader
   blueprint :employee2, name: 'Employee 2', leader: leader
 end

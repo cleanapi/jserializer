@@ -117,4 +117,25 @@ describe JSerializer::Serializer do
       expect(json_of(leader_serializer)).to eq(name: 'Mr. Leader', employees: [{name: 'Mr. Employee', employees: []}])
     end
   end
+
+  describe ".camelized_attributes" do
+    it "converts object's attributes to camel case" do
+      EmployeeSerializer.class_eval do
+        def serialize
+          camelized_attributes :last_name
+        end
+      end
+      expect(json_of(leader_serializer)).to eq(lastName: 'Snow')
+    end
+
+    it "won't convert custom attributes" do
+      EmployeeSerializer.class_eval do
+        def serialize(**_)
+          camelized_attributes last_name: "Mr. Snow"
+        end
+      end
+
+      expect(json_of(leader_serializer)).to eq(last_name: 'Mr. Snow')
+    end
+  end
 end
